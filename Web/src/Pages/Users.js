@@ -1,11 +1,10 @@
 import React from 'react';
-import MainLayout from '../Components/MainLayout';
 
 const Users = () => {
   return (
-    <MainLayout>
+    <div>
       <h1>Trang quản lý người dùng</h1>
-    </MainLayout>
+    </div>
   );
 };
 
