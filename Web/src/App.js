@@ -6,6 +6,7 @@ import Users from './Pages/Users';
 import EmployeeList from './Pages/EmployeeList';
 import EmployeeDetail from './Pages/EmployeeDetail';
 import MainLayout from './Components/MainLayout';
+import DirectorList from './Pages/DirectorList';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <Route path="/users" element={<Users />} />
       <Route path="/employees" element={<EmployeeList/>} />
       <Route path="/employees/:id" element={<EmployeeDetail/>} />
+      <Route path="/directors" element={<DirectorList />} />
     </Routes>
     </MainLayout>
   );
