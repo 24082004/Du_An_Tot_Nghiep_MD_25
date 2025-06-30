@@ -1,6 +1,6 @@
 import React from 'react';
 import { Layout, Menu } from 'antd';
-import { DashboardOutlined, UserOutlined } from '@ant-design/icons';
+import { DashboardOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
 import { Link, useLocation } from 'react-router-dom';
 
 const { Header, Content, Sider } = Layout;
@@ -11,7 +11,9 @@ const MainLayout = ({ children }) => {
   const getSelectedKey = (pathname) => {
     if (pathname === '/') return '1';
     if (pathname.startsWith('/users')) return '2';
-    if (pathname.startsWith('/employees')) return '3'; // ✅ thêm tab nhân viên
+    if (pathname.startsWith('/employees')) return '3';
+    if (pathname.startsWith('/movie/list')) return '4';
+    if (pathname.startsWith('/addmovie')) return '5';
     return '';
   };
 
@@ -31,6 +33,12 @@ const MainLayout = ({ children }) => {
           </Menu.Item>
           <Menu.Item key="3" icon={<UserOutlined />}>
             <Link to="/employees">Quản lý nhân viên</Link>
+          </Menu.Item>
+          <Menu.Item key="4" icon={<VideoCameraOutlined />}>
+            <Link to="/movie/list">Phim</Link>
+          </Menu.Item>
+          <Menu.Item key="5" icon={<VideoCameraOutlined />}>
+            <Link to="/addmovie">Thêm phim</Link>
           </Menu.Item>
         </Menu>
       </Sider>

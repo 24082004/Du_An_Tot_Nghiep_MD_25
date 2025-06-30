@@ -36,3 +36,10 @@
     transform: rotate(360deg);
   }
 }
+
+.ant-table-thead > tr > th {
+  background-color: #595353af !important;
+  font-weight: bold;
+  text-align: center;
+}
+
