@@ -1,43 +1,38 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Tag, Button, Space, Avatar, Typography } from 'antd';
+import { Table, Button, Space, Tag, Typography, Avatar } from 'antd';
 import { PlusOutlined, ReloadOutlined, UserOutlined } from '@ant-design/icons';
 
 const { Link } = Typography;
 
-const Users = () => {
-  const [users, setUsers] = useState([]);
+const DirectorList = () => {
+  const [directors, setDirectors] = useState([]);
 
   useEffect(() => {
-    // Fetch từ API thật ở đây nếu cần
-    setUsers([
+    setDirectors([
       {
         id: 1,
-        name: 'Phạm Đình Tiến',
-        email: 'phamdinhtien@gmail.com',
-        phone: '0709732310',
-        role: 'USER',
-        status: 'Kích hoạt',
+        name: 'Victor Vũ',
+        email: 'victorvu@gmail.com',
+        phone: '0909123456',
+        status: 'Đang hoạt động',
         createdAt: '28-06-2025',
       },
       {
         id: 2,
-        name: 'Phan Hải Tiến',
-        email: 'phanhaitien@gmail.com',
-        phone: '0866793860',
-        role: 'USER',
-        status: 'Kích hoạt',
+        name: 'Ngô Thanh Vân',
+        email: 'ngothanhvan@gmail.com',
+        phone: '0909988776',
+        status: 'Đang hoạt động',
         createdAt: '28-06-2025',
       },
       {
         id: 3,
-        name: 'Mai Đạt Thiên',
-        email: 'maidatthien@gmail.com',
-        phone: '0700990728',
-        role: 'USER',
-        status: 'Kích hoạt',
+        name: 'Charlie Nguyễn',
+        email: 'charlie@gmail.com',
+        phone: '0911223344',
+        status: 'Ngưng hoạt động',
         createdAt: '28-06-2025',
       },
-      // Thêm dữ liệu khác nếu muốn
     ]);
   }, []);
 
@@ -47,13 +42,13 @@ const Users = () => {
       dataIndex: 'name',
       key: 'avatar',
       render: (name) => (
-        <Avatar style={{ backgroundColor: '#ccc' }} icon={<UserOutlined />}>
+        <Avatar style={{ backgroundColor: '#87d068' }} icon={<UserOutlined />}>
           {name?.charAt(0).toUpperCase()}
         </Avatar>
       ),
     },
     {
-      title: 'Họ tên',
+      title: 'Tên đạo diễn',
       dataIndex: 'name',
       key: 'name',
       render: (text) => <Link>{text}</Link>,
@@ -69,19 +64,13 @@ const Users = () => {
       key: 'phone',
     },
     {
-      title: 'Quyền',
-      dataIndex: 'role',
-      key: 'role',
-      render: (role) => (
-        <Tag color="red">{role}</Tag>
-      ),
-    },
-    {
       title: 'Trạng thái',
       dataIndex: 'status',
       key: 'status',
       render: (status) => (
-        <Tag color="green">{status}</Tag>
+        <Tag color={status === 'Đang hoạt động' ? 'green' : 'volcano'}>
+          {status}
+        </Tag>
       ),
     },
     {
@@ -93,18 +82,18 @@ const Users = () => {
 
   return (
     <div style={{ padding: 24, background: '#fff', minHeight: '100vh' }}>
-      <h2 style={{ marginBottom: 16 }}>Danh sách người dùng</h2>
+      <h2 style={{ marginBottom: 16 }}>Danh sách đạo diễn</h2>
 
       <Space style={{ marginBottom: 16 }}>
         <Button type="primary" icon={<PlusOutlined />}>
-          Tạo user
+          Thêm đạo diễn
         </Button>
         <Button icon={<ReloadOutlined />}>Refresh</Button>
       </Space>
 
       <Table
         columns={columns}
-        dataSource={users}
+        dataSource={directors}
         rowKey="id"
         pagination={{ pageSize: 5 }}
         bordered
@@ -113,4 +102,4 @@ const Users = () => {
   );
 };
 
-export default Users;
+export default DirectorList;

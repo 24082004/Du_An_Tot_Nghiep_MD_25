@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Button, Switch, Input, Avatar, Tag } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom'; // thêm dòng này
+import { Link } from 'react-router-dom';
 
 const { Search } = Input;
 
