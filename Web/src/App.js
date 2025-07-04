@@ -8,6 +8,8 @@ import EmployeeDetail from './Pages/EmployeeDetail';
 import MainLayout from './Components/MainLayout';
 import MovieList from './Pages/MovieList';
 import AddMovie from './Pages/AddMovie';
+import CreateEmployee from './Pages/CreateEmployee';
+import SeatManagement from './Pages/SeatManagement';
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
       <Route path='/addmovie' element={<AddMovie/>}/>
       <Route path="/employees" element={<EmployeeList/>} />
       <Route path="/employees/:id" element={<EmployeeDetail/>} />
+      <Route path="/employees/create" element={<CreateEmployee/>} />
+      <Route path="/seats" element={<SeatManagement />} />
     </Routes>
     </MainLayout>
   );
