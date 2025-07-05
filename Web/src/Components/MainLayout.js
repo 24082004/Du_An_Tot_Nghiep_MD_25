@@ -1,6 +1,6 @@
 import React from 'react';
 import { Layout, Menu } from 'antd';
-import { DashboardOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
+import { DashboardOutlined, UserOutlined, VideoCameraOutlined, FileTextOutlined } from '@ant-design/icons';
 import { Link, useLocation } from 'react-router-dom';
 
 const { Header, Content, Sider } = Layout;
@@ -13,6 +13,7 @@ const MainLayout = ({ children }) => {
     if (pathname.startsWith('/users')) return '2';
     if (pathname.startsWith('/employees')) return '3'; // ✅ thêm tab nhân viên
     if (pathname.startsWith('/directors')) return '4';
+    if (pathname.startsWith('/bookings')) return '5';
     return '';
   };
 
@@ -34,8 +35,11 @@ const MainLayout = ({ children }) => {
             <Link to="/employees">Quản lý nhân viên</Link>
           </Menu.Item>
           <Menu.Item key="4" icon={<VideoCameraOutlined />}> 
-          <Link to="/directors">Đạo diễn</Link>
-        </Menu.Item>
+            <Link to="/directors">Đạo diễn</Link>
+          </Menu.Item>
+          <Menu.Item key="5" icon={<FileTextOutlined />}>
+            <Link to="/bookings">Lịch sử đặt vé</Link>
+          </Menu.Item>
         </Menu>
       </Sider>
       <Layout>

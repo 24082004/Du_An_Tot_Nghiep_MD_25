@@ -7,6 +7,8 @@ import EmployeeList from './Pages/EmployeeList';
 import EmployeeDetail from './Pages/EmployeeDetail';
 import MainLayout from './Components/MainLayout';
 import DirectorList from './Pages/DirectorList';
+import BookingHistory from './Pages/BookingHistory';
+import TicketDetail from './Pages/TicketDetail';
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
       <Route path="/employees" element={<EmployeeList/>} />
       <Route path="/employees/:id" element={<EmployeeDetail/>} />
       <Route path="/directors" element={<DirectorList />} />
+      <Route path="/bookings" element={<BookingHistory />} />
+      <Route path="/bookings/:id" element={<TicketDetail />} />
     </Routes>
     </MainLayout>
   );
