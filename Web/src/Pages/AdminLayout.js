@@ -3,6 +3,8 @@ import './AdminLayout.css';
 import Dashboard from './Dashboard';
 import Users from './Users';
 import Actors from './Actors';
+import Cinemas from './Cinemas';
+import Genres from './Genres';
 
 const AdminLayout = ({ onLogout }) => {
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -16,6 +18,8 @@ const AdminLayout = ({ onLogout }) => {
     { id: 'dashboard', label: 'Dashboard', icon: 'fas fa-tachometer-alt' },
     { id: 'users', label: 'Người dùng', icon: 'fas fa-users' },
     { id: 'actors', label: 'Diễn viên', icon: 'fas fa-star' },
+    { id: 'cinemas', label: 'Rạp chiếu', icon: 'fas fa-building' },
+    { id: 'genres', label: 'Thể loại', icon: 'fas fa-tags' },
     { id: 'movies', label: 'Phim', icon: 'fas fa-film' },
     { id: 'bookings', label: 'Đặt vé', icon: 'fas fa-ticket-alt' },
     { id: 'settings', label: 'Cài đặt', icon: 'fas fa-cog' }
@@ -29,6 +33,10 @@ const AdminLayout = ({ onLogout }) => {
         return <Users />;
       case 'actors':
         return <Actors />;
+      case 'cinemas':
+        return <Cinemas />;
+      case 'genres':
+        return <Genres />;
       case 'movies':
         return <div className="coming-soon">Trang Quản lý Phim đang được phát triển...</div>;
       case 'bookings':
