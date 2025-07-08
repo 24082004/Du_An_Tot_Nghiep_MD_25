@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Button, Switch, Input, Avatar, Tag } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const { Search } = Input;
 
 const EmployeeList = () => {
   const [employees, setEmployees] = useState([]);
   const [filteredEmployees, setFilteredEmployees] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const mockData = [
@@ -123,7 +124,12 @@ const EmployeeList = () => {
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 16 }}>
         <h2>Danh sách nhân viên</h2>
         <div>
-          <Button type="primary" icon={<PlusOutlined />} style={{ marginRight: 8 }}>
+          <Button
+            type="primary"
+            icon={<PlusOutlined />}
+            style={{ marginRight: 8 }}
+            onClick={() => navigate('/employees/create')}
+          >
             Tạo nhân viên
           </Button>
           <Search placeholder="Tìm kiếm..." onSearch={handleSearch} style={{ width: 200 }} />

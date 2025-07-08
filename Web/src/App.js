@@ -12,6 +12,8 @@ import RevenueStatistics from './Pages/RevenueStatistics';
 import BookingHistory from './Pages/BookingHistory';
 import TicketDetail from './Pages/TicketDetail';
 import CreateDirector from './Pages/CreateDirector';
+import CreateEmployee from './Pages/CreateEmployee';
+import SeatManagement from './Pages/SeatManagement';
 
 function App() {
   return (
@@ -28,6 +30,8 @@ function App() {
       <Route path="/bookings" element={<BookingHistory />} />
       <Route path="/bookings/:id" element={<TicketDetail />} />
       <Route path="/directors/create" element={<CreateDirector />} />
+      <Route path="/employees/create" element={<CreateEmployee/>} />
+      <Route path="/seats" element={<SeatManagement />} />
     </Routes>
     </MainLayout>
   );
