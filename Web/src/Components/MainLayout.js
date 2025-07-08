@@ -1,6 +1,6 @@
 import React from 'react';
 import { Layout, Menu } from 'antd';
-import { UserOutlined, VideoCameraOutlined, BarChartOutlined } from '@ant-design/icons';
+import { UserOutlined, VideoCameraOutlined, BarChartOutlined, FileTextOutlined } from '@ant-design/icons';
 import { Link, useLocation } from 'react-router-dom';
 
 const { Header, Content, Sider } = Layout;
@@ -15,6 +15,7 @@ const MainLayout = ({ children }) => {
     if (pathname.startsWith('/movie/list')) return '4';
     if (pathname.startsWith('/addmovie')) return '5';
     if (pathname.startsWith('/directors')) return '6';
+    if (pathname.startsWith('/bookings')) return '7';
     return '';
   };
 
@@ -44,6 +45,9 @@ const MainLayout = ({ children }) => {
           <Menu.Item key="6" icon={<VideoCameraOutlined />}> 
           <Link to="/directors">Đạo diễn</Link>
         </Menu.Item>
+          <Menu.Item key="7" icon={<FileTextOutlined />}>
+            <Link to="/bookings">Lịch sử đặt vé</Link>
+          </Menu.Item>
         </Menu>
       </Sider>
       <Layout>

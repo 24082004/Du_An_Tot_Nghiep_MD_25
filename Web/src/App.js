@@ -9,6 +9,9 @@ import MovieList from './Pages/MovieList';
 import AddMovie from './Pages/AddMovie';
 import DirectorList from './Pages/DirectorList';
 import RevenueStatistics from './Pages/RevenueStatistics';
+import BookingHistory from './Pages/BookingHistory';
+import TicketDetail from './Pages/TicketDetail';
+import CreateDirector from './Pages/CreateDirector';
 
 function App() {
   return (
@@ -22,6 +25,9 @@ function App() {
       <Route path="/employees" element={<EmployeeList/>} />
       <Route path="/employees/:id" element={<EmployeeDetail/>} />
       <Route path="/directors" element={<DirectorList />} />
+      <Route path="/bookings" element={<BookingHistory />} />
+      <Route path="/bookings/:id" element={<TicketDetail />} />
+      <Route path="/directors/create" element={<CreateDirector />} />
     </Routes>
     </MainLayout>
   );

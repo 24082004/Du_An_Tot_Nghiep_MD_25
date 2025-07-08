@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Space, Tag, Typography, Avatar } from 'antd';
+import { Table, Button, Space, Tag, Avatar } from 'antd';
 import { PlusOutlined, ReloadOutlined, UserOutlined } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
 
-const { Link } = Typography;
+
 
 const DirectorList = () => {
   const [directors, setDirectors] = useState([]);
@@ -85,11 +86,14 @@ const DirectorList = () => {
       <h2 style={{ marginBottom: 16 }}>Danh sách đạo diễn</h2>
 
       <Space style={{ marginBottom: 16 }}>
-        <Button type="primary" icon={<PlusOutlined />}>
-          Thêm đạo diễn
-        </Button>
+        <Link to="/directors/create">
+          <Button type="primary" icon={<PlusOutlined />}>
+            Thêm đạo diễn
+          </Button>
+        </Link>
         <Button icon={<ReloadOutlined />}>Refresh</Button>
-      </Space>
+    </Space>
+
 
       <Table
         columns={columns}
