@@ -17,6 +17,7 @@ const MainLayout = ({ children }) => {
     if (pathname.startsWith('/directors')) return '6';
     if (pathname.startsWith('/bookings')) return '7';
     if (pathname.startsWith('/seats')) return '8';
+    if (pathname.startsWith('/rooms')) return '9';
     return '';
   };
 
@@ -51,6 +52,9 @@ const MainLayout = ({ children }) => {
           </Menu.Item>
           <Menu.Item key="8" icon={<AppstoreOutlined />}>
             <Link to="/seats">Quản lý ghế</Link>
+          </Menu.Item>
+          <Menu.Item key="9" icon={<AppstoreOutlined />}>
+            <Link to="/rooms">Danh sách phòng chiếu</Link>
           </Menu.Item>
         </Menu>
       </Sider>
