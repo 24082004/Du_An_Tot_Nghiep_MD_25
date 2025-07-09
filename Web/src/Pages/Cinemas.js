@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Button, Modal, Form, Input, Space, message, Popconfirm, Card, Select, Upload, Image } from 'antd';
-import { PlusOutlined, EditOutlined, DeleteOutlined, SearchOutlined, UploadOutlined, EyeOutlined } from '@ant-design/icons';
+import { PlusOutlined, EditOutlined, DeleteOutlined, SearchOutlined, UploadOutlined, EyeOutlined, ArrowLeftOutlined } from '@ant-design/icons';
+import CreateCinema from './CreateCinema';
 import './Cinemas.css';
 
 const { TextArea } = Input;
@@ -13,6 +14,7 @@ const Cinemas = () => {
   const [editingCinema, setEditingCinema] = useState(null);
   const [form] = Form.useForm();
   const [searchText, setSearchText] = useState('');
+  const [showCreateCinema, setShowCreateCinema] = useState(false);
 
   // Mock data cho rạp chiếu
   const mockCinemas = [
@@ -104,9 +106,7 @@ const Cinemas = () => {
   };
 
   const handleAdd = () => {
-    setEditingCinema(null);
-    form.resetFields();
-    setModalVisible(true);
+    setShowCreateCinema(true);
   };
 
   const handleEdit = (record) => {
@@ -291,6 +291,36 @@ const Cinemas = () => {
       )
     }
   ];
+
+  // Hàm xử lý khi quay lại từ CreateCinema
+  const handleBackFromCreate = () => {
+    setShowCreateCinema(false);
+  };
+
+  // Hàm xử lý khi lưu rạp mới từ CreateCinema
+  const handleSaveFromCreate = (newCinemaData) => {
+    // Tạo ID mới
+    const newId = Math.max(...cinemas.map(c => c.id), 0) + 1;
+    const newCinema = {
+      id: newId,
+      ...newCinemaData,
+      status: 'active'
+    };
+    
+    setCinemas([...cinemas, newCinema]);
+    setShowCreateCinema(false);
+    message.success('Thêm rạp mới thành công!');
+  };
+
+  // Nếu đang ở chế độ tạo rạp mới, hiển thị CreateCinema
+  if (showCreateCinema) {
+    return (
+      <CreateCinema 
+        onBack={handleBackFromCreate}
+        onSave={handleSaveFromCreate}
+      />
+    );
+  }
 
   return (
     <div className="cinemas-container">
