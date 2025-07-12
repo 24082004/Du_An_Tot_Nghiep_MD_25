@@ -1,0 +1,363 @@
+.genres-container {
+  padding: 24px;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+}
+
+.genres-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.genres-header h2 {
+  margin: 0;
+  color: #1890ff;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.genres-actions {
+  display: flex;
+  align-items: center;
+}
+
+/* Table customization */
+.ant-table-thead > tr > th {
+  background-color: #fafafa;
+  font-weight: 600;
+  color: #262626;
+  border-bottom: 2px solid #e8e8e8;
+}
+
+.ant-table-tbody > tr:hover > td {
+  background-color: #f0f9ff;
+}
+
+/* Genre icon styling */
+.genre-icon {
+  font-size: 24px;
+  text-align: center;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  margin: 0 auto;
+  transition: all 0.3s ease;
+}
+
+.genre-icon:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Genre name styling */
+.genre-name {
+  font-weight: bold;
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+
+.genre-name-en {
+  font-size: 12px;
+  color: #666;
+  font-style: italic;
+}
+
+/* Stats styling */
+.genre-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.genre-stats-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+}
+
+.genre-stats-secondary {
+  font-size: 12px;
+  color: #666;
+}
+
+/* Age rating badge */
+.age-rating-badge {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+  color: white;
+  display: inline-block;
+}
+
+.age-rating-k {
+  background-color: #52c41a;
+}
+
+.age-rating-t13 {
+  background-color: #faad14;
+}
+
+.age-rating-t16 {
+  background-color: #fa8c16;
+}
+
+.age-rating-t18 {
+  background-color: #ff4d4f;
+}
+
+/* Keywords/Tags styling */
+.keyword-tag {
+  display: inline-block;
+  background-color: #f0f0f0;
+  color: #666;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 11px;
+  margin-right: 4px;
+  margin-bottom: 2px;
+  border: 1px solid #e0e0e0;
+  transition: all 0.2s ease;
+}
+
+.keyword-tag:hover {
+  background-color: #e6f7ff;
+  border-color: #91d5ff;
+  color: #1890ff;
+}
+
+.keyword-more {
+  font-size: 11px;
+  color: #999;
+  font-style: italic;
+}
+
+/* Status badge */
+.status-active {
+  background-color: #52c41a;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.status-inactive {
+  background-color: #d9d9d9;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+/* Modal customization */
+.ant-modal-header {
+  background: linear-gradient(90deg, #722ed1 0%, #531dab 100%);
+  border-radius: 6px 6px 0 0;
+}
+
+.ant-modal-title {
+  color: white;
+  font-weight: 600;
+}
+
+.ant-modal-close {
+  color: white;
+}
+
+.ant-modal-close:hover {
+  color: #f0f0f0;
+}
+
+/* Form customization */
+.ant-form-item-label > label {
+  font-weight: 600;
+  color: #262626;
+}
+
+.ant-input:focus,
+.ant-input-focused {
+  border-color: #722ed1;
+  box-shadow: 0 0 0 2px rgba(114, 46, 209, 0.2);
+}
+
+.ant-select:not(.ant-select-disabled):hover .ant-select-selector {
+  border-color: #722ed1;
+}
+
+.ant-select-focused .ant-select-selector {
+  border-color: #722ed1 !important;
+  box-shadow: 0 0 0 2px rgba(114, 46, 209, 0.2) !important;
+}
+
+/* Color input styling */
+input[type="color"] {
+  width: 100%;
+  height: 32px;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+input[type="color"]:hover {
+  border-color: #722ed1;
+}
+
+input[type="color"]:focus {
+  border-color: #722ed1;
+  box-shadow: 0 0 0 2px rgba(114, 46, 209, 0.2);
+  outline: none;
+}
+
+/* Button customization */
+.ant-btn-primary {
+  background: linear-gradient(90deg, #722ed1 0%, #531dab 100%);
+  border-color: #722ed1;
+  box-shadow: 0 2px 4px rgba(114, 46, 209, 0.3);
+}
+
+.ant-btn-primary:hover,
+.ant-btn-primary:focus {
+  background: linear-gradient(90deg, #531dab 0%, #391085 100%);
+  border-color: #531dab;
+  box-shadow: 0 4px 8px rgba(114, 46, 209, 0.4);
+}
+
+/* Card customization */
+.ant-card {
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: none;
+}
+
+.ant-card-head {
+  border-bottom: 1px solid #e8e8e8;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .genres-container {
+    padding: 16px;
+  }
+  
+  .genres-header {
+    flex-direction: column;
+    gap: 16px;
+    align-items: stretch;
+  }
+  
+  .genres-actions {
+    justify-content: space-between;
+  }
+  
+  .ant-modal {
+    margin: 16px;
+  }
+  
+  .ant-table-wrapper {
+    overflow-x: auto;
+  }
+  
+  .genre-name {
+    font-size: 14px;
+  }
+  
+  .genre-name-en {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 576px) {
+  .genres-actions {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .genres-actions .ant-input {
+    width: 100% !important;
+  }
+  
+  .ant-btn {
+    width: 100%;
+  }
+  
+  .genre-icon {
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    font-size: 20px;
+  }
+}
+
+/* Loading spinner */
+.ant-spin-container {
+  min-height: 200px;
+}
+
+/* Pagination */
+.ant-pagination {
+  margin-top: 24px;
+  text-align: right;
+}
+
+.ant-pagination-total-text {
+  color: #666;
+}
+
+/* Search input */
+.ant-input-affix-wrapper:focus,
+.ant-input-affix-wrapper-focused {
+  border-color: #722ed1;
+  box-shadow: 0 0 0 2px rgba(114, 46, 209, 0.2);
+}
+
+/* Action buttons */
+.action-btn {
+  margin-right: 8px;
+}
+
+.action-btn:last-child {
+  margin-right: 0;
+}
+
+/* Form grid responsive */
+@media (max-width: 768px) {
+  .ant-form .ant-row {
+    flex-direction: column;
+  }
+  
+  .ant-form .ant-col {
+    width: 100% !important;
+  }
+}
+
+/* Hover effects */
+.ant-table-tbody > tr {
+  transition: all 0.2s ease;
+}
+
+.ant-table-tbody > tr:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Tags select styling */
+.ant-select-selection-item {
+  background-color: #722ed1 !important;
+  border-color: #722ed1 !important;
+  color: white !important;
+}
+
+.ant-select-selection-item-remove {
+  color: white !important;
+}
+
+.ant-select-selection-item-remove:hover {
+  color: #f0f0f0 !important;
+}
