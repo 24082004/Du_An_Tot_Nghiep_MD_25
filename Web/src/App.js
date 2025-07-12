@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import './App.css';
 import Users from './Pages/Users';
@@ -14,11 +14,22 @@ import TicketDetail from './Pages/TicketDetail';
 import CreateDirector from './Pages/CreateDirector';
 import CreateEmployee from './Pages/CreateEmployee';
 import SeatManagement from './Pages/SeatManagement';
+// import SimpleLogin from './Pages/SimpleLogin';
+// import AdminLayout from './Pages/AdminLayout';
 
 function App() {
-  return (
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-    <MainLayout>
+  const handleLogin = () => {
+    setIsAuthenticated(true);
+  };
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+  };
+
+  return (
+      <MainLayout>
       <Routes>
       <Route path="/statistics" element={<RevenueStatistics />} />
       <Route path="/users" element={<Users />} />
@@ -34,6 +45,14 @@ function App() {
       <Route path="/seats" element={<SeatManagement />} />
     </Routes>
     </MainLayout>
+    // <div className="App">
+    //   {isAuthenticated ? (
+    //     <AdminLayout onLogout={handleLogout} />
+    //   ) : (
+    //     <SimpleLogin onLogin={handleLogin} />
+    //   )}
+    // </div>
+    
   );
 }
 

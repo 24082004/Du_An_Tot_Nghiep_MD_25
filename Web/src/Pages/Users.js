@@ -1,79 +1,180 @@
-import React, { useEffect, useState } from 'react';
-import { Table, Tag, Button, Space, Avatar, Typography } from 'antd';
-import { PlusOutlined, ReloadOutlined, UserOutlined } from '@ant-design/icons';
+import React, { useState } from 'react';
+import {
+  Table,
+  Button,
+  Input,
+  Space,
+  Tag,
+  Avatar,
+  Typography,
+  Card,
+  Row,
+  Col,
+  Statistic,
+  Dropdown,
+  Modal,
+  Form,
+  Select,
+  message,
+} from 'antd';
+import {
+  UserAddOutlined,
+  MoreOutlined,
+  EditOutlined,
+  DeleteOutlined,
+  UserOutlined,
+  MailOutlined,
+  PhoneOutlined,
+} from '@ant-design/icons';
 
-const { Link } = Typography;
+const { Title } = Typography;
+const { Option } = Select;
 
 const Users = () => {
-  const [users, setUsers] = useState([]);
+  const [searchText, setSearchText] = useState('');
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [editingUser, setEditingUser] = useState(null);
+  const [form] = Form.useForm();
 
-  useEffect(() => {
-    // Fetch từ API thật ở đây nếu cần
-    setUsers([
+  const userData = [
+    {
+      key: '1',
+      id: 'USR001',
+      name: 'Nguyễn Văn A',
+      email: 'nguyenvana@email.com',
+      phone: '0123456789',
+      status: 'active',
+      registeredDate: '2024-01-15',
+      lastLogin: '2024-01-20',
+      totalOrders: 15,
+      totalSpent: 2340000,
+    },
+    {
+      key: '2',
+      id: 'USR002',
+      name: 'Trần Thị B',
+      email: 'tranthib@email.com',
+      phone: '0987654321',
+      status: 'active',
+      registeredDate: '2024-01-10',
+      lastLogin: '2024-01-19',
+      totalOrders: 8,
+      totalSpent: 1560000,
+    },
+    {
+      key: '3',
+      id: 'USR003',
+      name: 'Lê Văn C',
+      email: 'levanc@email.com',
+      phone: '0369852147',
+      status: 'inactive',
+      registeredDate: '2023-12-20',
+      lastLogin: '2024-01-10',
+      totalOrders: 3,
+      totalSpent: 450000,
+    },
+  ];
+
+  const userStats = [
+    { title: 'Tổng người dùng', value: 1234, color: '#1890ff' },
+    { title: 'Người dùng mới (tháng)', value: 89, color: '#52c41a' },
+    { title: 'Người dùng hoạt động', value: 987, color: '#fa8c16' },
+    { title: 'Người dùng VIP', value: 156, color: '#eb2f96' },
+  ];
+
+  const handleSearch = (value) => {
+    setSearchText(value);
+  };
+
+  const handleAddUser = () => {
+    setEditingUser(null);
+    form.resetFields();
+    setIsModalVisible(true);
+  };
+
+  const handleEditUser = (user) => {
+    setEditingUser(user);
+    form.setFieldsValue(user);
+    setIsModalVisible(true);
+  };
+
+  const handleDeleteUser = (userId) => {
+    Modal.confirm({
+      title: 'Xác nhận xóa',
+      content: 'Bạn có chắc chắn muốn xóa người dùng này?',
+      onOk() {
+        message.success('Đã xóa người dùng thành công');
+      },
+    });
+  };
+
+  const handleModalOk = () => {
+    form.validateFields().then((values) => {
+      if (editingUser) {
+        message.success('Cập nhật thông tin thành công');
+      } else {
+        message.success('Thêm người dùng thành công');
+      }
+      setIsModalVisible(false);
+      form.resetFields();
+    });
+  };
+
+  const getActionMenu = (record) => ({
+    items: [
       {
-        id: 1,
-        name: 'Phạm Đình Tiến',
-        email: 'phamdinhtien@gmail.com',
-        phone: '0709732310',
-        role: 'USER',
-        status: 'Kích hoạt',
-        createdAt: '28-06-2025',
+        key: 'edit',
+        icon: <EditOutlined />,
+        label: 'Chỉnh sửa',
+        onClick: () => handleEditUser(record),
       },
       {
-        id: 2,
-        name: 'Phan Hải Tiến',
-        email: 'phanhaitien@gmail.com',
-        phone: '0866793860',
-        role: 'USER',
-        status: 'Kích hoạt',
-        createdAt: '28-06-2025',
+        key: 'delete',
+        icon: <DeleteOutlined />,
+        label: 'Xóa',
+        danger: true,
+        onClick: () => handleDeleteUser(record.id),
       },
-      {
-        id: 3,
-        name: 'Mai Đạt Thiên',
-        email: 'maidatthien@gmail.com',
-        phone: '0700990728',
-        role: 'USER',
-        status: 'Kích hoạt',
-        createdAt: '28-06-2025',
-      },
-      // Thêm dữ liệu khác nếu muốn
-    ]);
-  }, []);
+    ],
+  });
 
   const columns = [
     {
       title: 'Avatar',
       dataIndex: 'name',
       key: 'avatar',
+      width: 80,
       render: (name) => (
-        <Avatar style={{ backgroundColor: '#ccc' }} icon={<UserOutlined />}>
-          {name?.charAt(0).toUpperCase()}
+        <Avatar size="large" style={{ backgroundColor: '#1890ff' }} icon={<UserOutlined />}>
+          {name?.charAt(0)}
         </Avatar>
       ),
     },
     {
-      title: 'Họ tên',
-      dataIndex: 'name',
-      key: 'name',
-      render: (text) => <Link>{text}</Link>,
+      title: 'Thông tin',
+      key: 'info',
+      render: (_, record) => (
+        <div>
+          <div style={{ fontWeight: 500 }}>{record.name}</div>
+          <div style={{ fontSize: 12, color: '#666' }}>ID: {record.id}</div>
+        </div>
+      ),
     },
     {
-      title: 'Email',
-      dataIndex: 'email',
-      key: 'email',
-    },
-    {
-      title: 'Số điện thoại',
-      dataIndex: 'phone',
-      key: 'phone',
-    },
-    {
-      title: 'Quyền',
-      dataIndex: 'role',
-      key: 'role',
-      render: (role) => (
-        <Tag color="red">{role}</Tag>
+      title: 'Liên hệ',
+      key: 'contact',
+      render: (_, record) => (
+        <div>
+          <div style={{ marginBottom: 4 }}>
+            <MailOutlined style={{ marginRight: 4, color: '#1890ff' }} />
+            {record.email}
+          </div>
+          <div>
+            <PhoneOutlined style={{ marginRight: 4, color: '#52c41a' }} />
+            {record.phone}
+          </div>
+        </div>
       ),
     },
     {
@@ -81,34 +182,164 @@ const Users = () => {
       dataIndex: 'status',
       key: 'status',
       render: (status) => (
-        <Tag color="green">{status}</Tag>
+        <Tag color={status === 'active' ? 'green' : 'red'}>
+          {status === 'active' ? 'Hoạt động' : 'Không hoạt động'}
+        </Tag>
       ),
     },
     {
-      title: 'Ngày tạo',
-      dataIndex: 'createdAt',
-      key: 'createdAt',
+      title: 'Thống kê',
+      key: 'stats',
+      render: (_, record) => (
+        <div>
+          <div style={{ fontSize: 12, color: '#666' }}>
+            Đơn hàng: <strong>{record.totalOrders}</strong>
+          </div>
+          <div style={{ fontSize: 12, color: '#666' }}>
+            Chi tiêu:{' '}
+            <strong style={{ color: '#52c41a' }}>
+              ₫{record.totalSpent.toLocaleString()}
+            </strong>
+          </div>
+        </div>
+      ),
+    },
+    {
+      title: 'Ngày đăng ký',
+      dataIndex: 'registeredDate',
+      key: 'registeredDate',
+    },
+    {
+      title: 'Thao tác',
+      key: 'action',
+      width: 50,
+      render: (_, record) => (
+        <Dropdown menu={getActionMenu(record)} trigger={['click']}>
+          <Button type="text" icon={<MoreOutlined />} />
+        </Dropdown>
+      ),
     },
   ];
 
+  const rowSelection = {
+    selectedRowKeys,
+    onChange: setSelectedRowKeys,
+  };
+
+  const filteredData = userData.filter((user) =>
+    user.name.toLowerCase().includes(searchText.toLowerCase()) ||
+    user.email.toLowerCase().includes(searchText.toLowerCase())
+  );
+
   return (
-    <div style={{ padding: 24, background: '#fff', minHeight: '100vh' }}>
-      <h2 style={{ marginBottom: 16 }}>Danh sách người dùng</h2>
+    <div style={{ padding: 24 }}>
+      <Title level={2}>Quản lý người dùng</Title>
 
-      <Space style={{ marginBottom: 16 }}>
-        <Button type="primary" icon={<PlusOutlined />}>
-          Tạo user
-        </Button>
-        <Button icon={<ReloadOutlined />}>Refresh</Button>
-      </Space>
+      <Row gutter={[16, 16]} style={{ marginBottom: 24 }}>
+        {userStats.map((stat, index) => (
+          <Col xs={24} sm={12} lg={6} key={index}>
+            <Card>
+              <Statistic title={stat.title} value={stat.value} valueStyle={{ color: stat.color }} />
+            </Card>
+          </Col>
+        ))}
+      </Row>
 
-      <Table
-        columns={columns}
-        dataSource={users}
-        rowKey="id"
-        pagination={{ pageSize: 5 }}
-        bordered
-      />
+      <Card style={{ marginBottom: 16 }}>
+        <Row justify="space-between" align="middle">
+          <Col>
+            <Input.Search
+              placeholder="Tìm kiếm theo tên hoặc email..."
+              allowClear
+              style={{ width: 300 }}
+              onSearch={handleSearch}
+              onChange={(e) => handleSearch(e.target.value)}
+            />
+          </Col>
+          <Col>
+            <Space>
+              <Button type="primary" icon={<UserAddOutlined />} onClick={handleAddUser}>
+                Thêm người dùng
+              </Button>
+            </Space>
+          </Col>
+        </Row>
+      </Card>
+
+      <Card>
+        <Table
+          rowSelection={rowSelection}
+          columns={columns}
+          dataSource={filteredData}
+          pagination={{
+            total: filteredData.length,
+            pageSize: 10,
+            showSizeChanger: true,
+            showQuickJumper: true,
+            showTotal: (total, range) => `${range[0]}-${range[1]} của ${total} người dùng`,
+          }}
+        />
+      </Card>
+
+      <Modal
+        title={editingUser ? 'Chỉnh sửa người dùng' : 'Thêm người dùng mới'}
+        open={isModalVisible}
+        onOk={handleModalOk}
+        onCancel={() => {
+          setIsModalVisible(false);
+          form.resetFields();
+        }}
+        width={600}
+      >
+        <Form form={form} layout="vertical">
+          <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item
+                name="name"
+                label="Họ và tên"
+                rules={[{ required: true, message: 'Vui lòng nhập họ tên!' }]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item
+                name="email"
+                label="Email"
+                rules={[
+                  { required: true, message: 'Vui lòng nhập email!' },
+                  { type: 'email', message: 'Email không hợp lệ!' },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item
+                name="phone"
+                label="Số điện thoại"
+                rules={[{ required: true, message: 'Vui lòng nhập số điện thoại!' }]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item
+                name="status"
+                label="Trạng thái"
+                rules={[{ required: true, message: 'Vui lòng chọn trạng thái!' }]}
+              >
+                <Select>
+                  <Option value="active">Hoạt động</Option>
+                  <Option value="inactive">Không hoạt động</Option>
+                </Select>
+              </Form.Item>
+            </Col>
+          </Row>
+        </Form>
+      </Modal>
     </div>
   );
 };
