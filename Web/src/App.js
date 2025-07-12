@@ -1,27 +1,13 @@
-<<<<<<< Updated upstream
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-import './App.css';
-import Dashboard from './Pages/Dashboard';
-import Users from './Pages/Users';
-
-function App() {
-  return (
-      <Routes>
-        <Route path = "/" element={<Dashboard/>}/>
-        <Route path = "/users" element={<Users/>}/>
-      </Routes>
-=======
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import "./App.css";
 import AdminLogin from "./Pages/AdminLogin";
 import Users from "./Pages/Users";
-import EmployeeList from "./Pages/EmployeeList";
-import EmployeeDetail from "./Pages/EmployeeDetail";
+// import EmployeeList from "./Pages/EmployeeList";
+// import EmployeeDetail from "./Pages/EmployeeDetail";
 import MainLayout from "./Components/MainLayout";
 import MovieList from "./Pages/MovieList";
-import AddMovie from "./Pages/AddMovie";
+// import AddMovie from "./Pages/AddMovie";
 import DirectorList from "./Pages/DirectorList";
 import RevenueStatistics from "./Pages/RevenueStatistics";
 import AuthService from "./services/authService";
@@ -80,14 +66,14 @@ function App() {
         }
       />
 
-      <Route
+      {/* <Route
         path="/admin/statistics"
         element={
           <ProtectedRoute>
             <RevenueStatistics />
           </ProtectedRoute>
         }
-      />
+      /> */}
 
       <Route
         path="/admin/users"
@@ -107,34 +93,33 @@ function App() {
         }
       />
 
-      <Route
+      {/* <Route
         path="/admin/addmovie"
         element={
           <ProtectedRoute>
             <AddMovie />
           </ProtectedRoute>
         }
-      />
+      /> */}
 
-      <Route
+      {/* <Route
         path="/admin/employees"
         element={
           <ProtectedRoute>
             <EmployeeList />
           </ProtectedRoute>
         }
-      />
+      /> */}
 
-      <Route
+      {/* <Route
         path="/admin/employees/:id"
         element={
           <ProtectedRoute>
             <EmployeeDetail />
           </ProtectedRoute>
         }
-      />
+      /> */}
 
-      {/* Routes cho Đạo diễn */}
       <Route
         path="/admin/directors"
         element={
@@ -144,7 +129,6 @@ function App() {
         }
       />
 
-      {/* Routes cho Diễn viên */}
       <Route
         path="/admin/actors"
         element={
@@ -153,6 +137,7 @@ function App() {
           </ProtectedRoute>
         }
       />
+
       <Route
         path="/admin/foods"
         element={
@@ -161,7 +146,7 @@ function App() {
           </ProtectedRoute>
         }
       />
-      {/* Routes cho Rạp phim */}
+
       <Route
         path="/admin/cinemas"
         element={
@@ -170,6 +155,7 @@ function App() {
           </ProtectedRoute>
         }
       />
+
       <Route
         path="/admin/discounts"
         element={
@@ -178,6 +164,7 @@ function App() {
           </ProtectedRoute>
         }
       />
+
       <Route
         path="/admin/rooms"
         element={
@@ -186,19 +173,19 @@ function App() {
           </ProtectedRoute>
         }
       />
-      <Route 
-        path="/admin/seats" 
+
+      <Route
+        path="/admin/seats"
         element={
           <ProtectedRoute>
             <SeatList />
           </ProtectedRoute>
-        } 
+        }
       />
 
-      {/* Catch all route - Redirect to login */}
+      {/* Catch all route */}
       <Route path="*" element={<Navigate to="/admin/login" replace />} />
     </Routes>
->>>>>>> Stashed changes
   );
 }
 
