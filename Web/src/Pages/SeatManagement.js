@@ -60,7 +60,6 @@ const SeatManagement = () => {
         </Select>
       </div>
 
-      {/* Dòng chứa các Button */}
       <div style={{
         display: 'flex',
         justifyContent: 'center',
@@ -76,7 +75,6 @@ const SeatManagement = () => {
         Phim đang chiếu: <strong>Cuu Long Thanh Trai Vay Ham</strong>
       </h3>
 
-      {/* Danh sách ghế */}
       <div style={{
         display: 'flex',
         flexDirection: 'column',
@@ -98,7 +96,6 @@ const SeatManagement = () => {
         ))}
       </div>
 
-      {/* Ghi chú màu ghế */}
       <div style={{ display: 'flex', justifyContent: 'center', marginTop: 20, gap: 20 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <div style={{ width: 15, height: 15, backgroundColor: '#52c41a', borderRadius: 3 }}></div>

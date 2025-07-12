@@ -11,7 +11,7 @@ const CreateEmployee = () => {
   const handleSubmit = (values) => {
     console.log('Dữ liệu tạo nhân viên:', values);
     message.success('Tạo nhân viên thành công!');
-    navigate('/employees'); // Quay về danh sách nhân viên
+    navigate('/employees');
   };
 
   return (

@@ -7,12 +7,10 @@ const CreateDirector = () => {
   const navigate = useNavigate();
 
   const onFinish = (values) => {
-    // Gửi dữ liệu lên server ở đây (fake)
     console.log('Form values:', values);
 
-    // Giả lập tạo thành công
     message.success('Tạo đạo diễn thành công!');
-    navigate('/directors'); // Quay về danh sách
+    navigate('/directors');
   };
 
   return (
