@@ -1,0 +1,77 @@
+[33me35632d[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mdev[m[33m)[m HEAD@{0}: reset: moving to HEAD~1
+[33m6457d12[m HEAD@{1}: reset: moving to HEAD~1
+[33m18e743b[m HEAD@{2}: reset: moving to HEAD~1
+[33m0048957[m HEAD@{3}: reset: moving to HEAD~1
+[33mfd33011[m[33m ([m[1;31morigin/dev[m[33m)[m HEAD@{4}: reset: moving to HEAD~1
+[33m42a858a[m HEAD@{5}: checkout: moving from vuong to dev
+[33m89f10df[m[33m ([m[1;32mvuong[m[33m)[m HEAD@{6}: checkout: moving from quy to vuong
+[33mdc085f6[m[33m ([m[1;32mquy[m[33m)[m HEAD@{7}: checkout: moving from canh to quy
+[33m17b44c8[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m, [m[1;32mcanh[m[33m)[m HEAD@{8}: checkout: moving from main to canh
+[33m17b44c8[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m, [m[1;32mcanh[m[33m)[m HEAD@{9}: checkout: moving from dev to main
+[33m42a858a[m HEAD@{10}: commit: up
+[33mfd33011[m[33m ([m[1;31morigin/dev[m[33m)[m HEAD@{11}: commit (merge): update
+[33m0048957[m HEAD@{12}: commit (merge): quan ly ghe
+[33m18e743b[m HEAD@{13}: commit (merge): lich su ve
+[33m6457d12[m HEAD@{14}: commit (merge): trang chu
+[33me35632d[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mdev[m[33m)[m HEAD@{15}: commit (merge): giao dien ds phim
+[33m3bb50f7[m HEAD@{16}: commit (merge): update
+[33md6e1adf[m HEAD@{17}: commit: update
+[33mf52b506[m[33m ([m[1;31morigin/huy[m[33m)[m HEAD@{18}: checkout: moving from dev to dev
+[33mf52b506[m[33m ([m[1;31morigin/huy[m[33m)[m HEAD@{19}: checkout: moving from dev to dev
+[33mf52b506[m[33m ([m[1;31morigin/huy[m[33m)[m HEAD@{20}: checkout: moving from huy to dev
+[33madf70b2[m[33m ([m[1;32mhuy[m[33m)[m HEAD@{21}: commit: up
+[33mf52b506[m[33m ([m[1;31morigin/huy[m[33m)[m HEAD@{22}: checkout: moving from dev to huy
+[33mf52b506[m[33m ([m[1;31morigin/huy[m[33m)[m HEAD@{23}: commit: update
+[33m17b44c8[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m, [m[1;32mcanh[m[33m)[m HEAD@{24}: checkout: moving from quy to dev
+[33mdc085f6[m[33m ([m[1;32mquy[m[33m)[m HEAD@{25}: checkout: moving from dev to quy
+[33m17b44c8[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m, [m[1;32mcanh[m[33m)[m HEAD@{26}: checkout: moving from quy to dev
+[33mdc085f6[m[33m ([m[1;32mquy[m[33m)[m HEAD@{27}: commit: signupapi
+[33m17b44c8[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m, [m[1;32mcanh[m[33m)[m HEAD@{28}: checkout: moving from main to quy
+[33m17b44c8[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m, [m[1;32mcanh[m[33m)[m HEAD@{29}: checkout: moving from canh to main
+[33m17b44c8[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m, [m[1;32mcanh[m[33m)[m HEAD@{30}: checkout: moving from main to canh
+[33m17b44c8[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m, [m[1;32mcanh[m[33m)[m HEAD@{31}: checkout: moving from main to main
+[33m17b44c8[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m, [m[1;32mcanh[m[33m)[m HEAD@{32}: merge dev: Fast-forward
+[33m89f10df[m[33m ([m[1;32mvuong[m[33m)[m HEAD@{33}: checkout: moving from vuong to main
+[33m89f10df[m[33m ([m[1;32mvuong[m[33m)[m HEAD@{34}: checkout: moving from main to vuong
+[33m89f10df[m[33m ([m[1;32mvuong[m[33m)[m HEAD@{35}: checkout: moving from dev to main
+[33m17b44c8[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m, [m[1;32mcanh[m[33m)[m HEAD@{36}: commit: Web
+[33m5c13db3[m HEAD@{37}: commit: apisignup
+[33md02f414[m HEAD@{38}: commit: update
+[33m6e6316f[m HEAD@{39}: commit: update
+[33m89f10df[m[33m ([m[1;32mvuong[m[33m)[m HEAD@{40}: pull origin main: Fast-forward
+[33m93fa2d9[m HEAD@{41}: checkout: moving from main to dev
+[33m89f10df[m[33m ([m[1;32mvuong[m[33m)[m HEAD@{42}: checkout: moving from dev to main
+[33m93fa2d9[m HEAD@{43}: checkout: moving from main to dev
+[33m89f10df[m[33m ([m[1;32mvuong[m[33m)[m HEAD@{44}: reset: moving to 89f10df
+[33m9b9b97a[m HEAD@{45}: reset: moving to 9b9b97a
+[33m89f10df[m[33m ([m[1;32mvuong[m[33m)[m HEAD@{46}: commit (merge): chinh sua
+[33mc320bdf[m HEAD@{47}: commit: backend
+[33m93fa2d9[m HEAD@{48}: merge dev: Fast-forward
+[33m9b9b97a[m HEAD@{49}: checkout: moving from dev to main
+[33m93fa2d9[m HEAD@{50}: commit (merge): update
+[33m9b9b97a[m HEAD@{51}: checkout: moving from main to dev
+[33m9b9b97a[m HEAD@{52}: reset: moving to dev
+[33m3f0b59a[m HEAD@{53}: checkout: moving from dev to main
+[33m9b9b97a[m HEAD@{54}: reset: moving to dev
+[33m9b9b97a[m HEAD@{55}: reset: moving to dev
+[33m9b9b97a[m HEAD@{56}: commit: up
+[33m007acec[m HEAD@{57}: commit: abcxyz
+[33m3f0b59a[m HEAD@{58}: checkout: moving from dev to dev
+[33m3f0b59a[m HEAD@{59}: checkout: moving from main to dev
+[33m3f0b59a[m HEAD@{60}: checkout: moving from main to main
+[33m3f0b59a[m HEAD@{61}: commit: chinh sua
+[33m1be7393[m HEAD@{62}: reset: moving to HEAD~1
+[33mdc7b053[m HEAD@{63}: rebase (finish): returning to refs/heads/main
+[33mdc7b053[m HEAD@{64}: commit: chinh sua
+[33m1be7393[m HEAD@{65}: pull origin main --rebase (start): checkout 1be73933ae8bc361b6c8a27ef7f6d86e3a4d41ca
+[33meddea8c[m HEAD@{66}: commit: update1
+[33m5735b87[m HEAD@{67}: reset: moving to 5735b87
+[33m826ac80[m HEAD@{68}: commit: update
+[33m5735b87[m HEAD@{69}: commit: FontendApp
+[33mef3302f[m HEAD@{70}: commit: Sign
+[33m3f08097[m HEAD@{71}: commit: Xoa
+[33ma7166b3[m HEAD@{72}: commit: Fontend
+[33m5762e46[m HEAD@{73}: commit: Mobile
+[33m654beed[m HEAD@{74}: commit: App
+[33mae4a918[m HEAD@{75}: Branch: renamed refs/heads/main to refs/heads/main
+[33mae4a918[m HEAD@{77}: commit (initial): App

@@ -14,6 +14,7 @@ import TicketDetail from './Pages/TicketDetail';
 import CreateDirector from './Pages/CreateDirector';
 import CreateEmployee from './Pages/CreateEmployee';
 import SeatManagement from './Pages/SeatManagement';
+import RoomList from './Pages/RoomList';
 // import SimpleLogin from './Pages/SimpleLogin';
 // import AdminLayout from './Pages/AdminLayout';
 
@@ -43,6 +44,7 @@ function App() {
       <Route path="/directors/create" element={<CreateDirector />} />
       <Route path="/employees/create" element={<CreateEmployee/>} />
       <Route path="/seats" element={<SeatManagement />} />
+      <Route path="/rooms" element={<RoomList />} />
     </Routes>
     </MainLayout>
     // <div className="App">
