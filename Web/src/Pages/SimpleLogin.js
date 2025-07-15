@@ -11,13 +11,10 @@ const Login = ({ onLogin }) => {
   const onFinish = async (values) => {
     setLoading(true);
     try {
-      // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      // Mock authentication - replace with real API call
       if (values.email === 'admin@cinema.com' && values.password === 'admin123') {
         message.success('Đăng nhập thành công!');
-        // Call onLogin callback to update authentication state
         if (onLogin) {
           onLogin();
         }

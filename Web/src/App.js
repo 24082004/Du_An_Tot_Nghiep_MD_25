@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import './App.css';
 import Users from './Pages/Users';
@@ -19,15 +19,15 @@ import RoomList from './Pages/RoomList';
 // import AdminLayout from './Pages/AdminLayout';
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  // const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const handleLogin = () => {
-    setIsAuthenticated(true);
-  };
+  // const handleLogin = () => {
+  //   setIsAuthenticated(true);
+  // };
 
-  const handleLogout = () => {
-    setIsAuthenticated(false);
-  };
+  // const handleLogout = () => {
+  //   setIsAuthenticated(false);
+  // };
 
   return (
       <MainLayout>

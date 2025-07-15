@@ -8,7 +8,6 @@ const BookingHistory = () => {
   const [bookings, setBookings] = useState([]);
 
   useEffect(() => {
-    // Giả lập dữ liệu
     setBookings([
       {
         id: '1',

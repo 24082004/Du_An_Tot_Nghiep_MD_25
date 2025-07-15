@@ -5,12 +5,11 @@ import { useParams, useNavigate } from 'react-router-dom';
 const { Title } = Typography;
 
 const TicketDetail = () => {
-  const { id } = useParams(); // Lấy ID vé từ URL
+  const { id } = useParams();
   const navigate = useNavigate();
   const [ticket, setTicket] = useState(null);
 
   useEffect(() => {
-    // Giả lập API fetch theo ID
     const fakeData = [
       {
         id: '1',
