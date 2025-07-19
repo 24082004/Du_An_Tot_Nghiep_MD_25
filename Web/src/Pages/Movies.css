@@ -1,0 +1,337 @@
+.movies-container {
+  padding: 24px;
+  background: #f5f5f5;
+  min-height: 100vh;
+}
+
+.movies-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.movies-header h2 {
+  margin: 0;
+  color: #1890ff;
+  font-size: 24px;
+  font-weight: 700;
+  background: linear-gradient(90deg, #1890ff 0%, #722ed1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.movies-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+/* Table styling */
+.ant-table {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.ant-table-thead > tr > th {
+  background: linear-gradient(90deg, #1890ff 0%, #722ed1 100%);
+  color: white;
+  font-weight: 600;
+  border: none;
+}
+
+.ant-table-tbody > tr:hover {
+  background: #f0f9ff;
+}
+
+.ant-table-tbody > tr > td {
+  border-bottom: 1px solid #f0f0f0;
+  padding: 12px 16px;
+}
+
+/* Poster image styling */
+.ant-image {
+  border: 1px solid #e8e8e8;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.ant-image img {
+  transition: transform 0.3s ease;
+}
+
+.ant-image:hover img {
+  transform: scale(1.05);
+}
+
+/* Tag styling */
+.ant-tag {
+  border-radius: 4px;
+  font-size: 11px;
+  margin: 2px;
+  padding: 2px 8px;
+}
+
+/* Button styling */
+.ant-btn {
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.ant-btn-primary {
+  background: linear-gradient(90deg, #1890ff 0%, #722ed1 100%);
+  border: none;
+  box-shadow: 0 2px 8px rgba(24, 144, 255, 0.3);
+}
+
+.ant-btn-primary:hover {
+  background: linear-gradient(90deg, #0050b3 0%, #531dab 100%);
+  box-shadow: 0 4px 12px rgba(24, 144, 255, 0.4);
+  transform: translateY(-1px);
+}
+
+.ant-btn-text:hover {
+  background: rgba(24, 144, 255, 0.1);
+  color: #1890ff;
+}
+
+/* Search input styling */
+.ant-input-search .ant-input-group .ant-input {
+  border-radius: 6px 0 0 6px;
+  border-color: #d9d9d9;
+  transition: all 0.3s ease;
+}
+
+.ant-input-search .ant-input-group .ant-input:focus,
+.ant-input-search .ant-input-group .ant-input-affix-wrapper:focus {
+  border-color: #1890ff;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+.ant-input-search .ant-input-group-addon .ant-btn {
+  border-radius: 0 6px 6px 0;
+  background: linear-gradient(90deg, #1890ff 0%, #722ed1 100%);
+  border-color: #1890ff;
+}
+
+/* Select styling */
+.ant-select:not(.ant-select-disabled):hover .ant-select-selector {
+  border-color: #1890ff;
+}
+
+.ant-select-focused .ant-select-selector {
+  border-color: #1890ff !important;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2) !important;
+}
+
+/* Rate styling */
+.ant-rate {
+  font-size: 14px;
+}
+
+.ant-rate-star {
+  color: #fadb14;
+}
+
+/* Alert styling */
+.ant-alert {
+  border-radius: 8px;
+  border: none;
+}
+
+.ant-alert-success {
+  background: linear-gradient(135deg, #f6ffed 0%, #f0f9ff 100%);
+  border-left: 4px solid #52c41a;
+}
+
+.ant-alert-warning {
+  background: linear-gradient(135deg, #fffbe6 0%, #fff7e6 100%);
+  border-left: 4px solid #faad14;
+}
+
+/* Spin styling */
+.ant-spin {
+  color: #1890ff;
+}
+
+.ant-spin-dot-item {
+  background-color: #1890ff;
+}
+
+/* Modal styling */
+.ant-modal .ant-modal-header {
+  background: linear-gradient(90deg, #1890ff 0%, #722ed1 100%);
+  border-bottom: none;
+  border-radius: 6px 6px 0 0;
+}
+
+.ant-modal .ant-modal-title {
+  color: white;
+  font-weight: 600;
+}
+
+.ant-modal .ant-modal-close {
+  color: white;
+}
+
+.ant-modal .ant-modal-close:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Pagination styling */
+.ant-pagination {
+  margin-top: 24px;
+  text-align: center;
+}
+
+.ant-pagination-item-active {
+  background: linear-gradient(90deg, #1890ff 0%, #722ed1 100%);
+  border-color: #1890ff;
+}
+
+.ant-pagination-item-active a {
+  color: white;
+}
+
+.ant-pagination-item:hover {
+  border-color: #1890ff;
+}
+
+.ant-pagination-item:hover a {
+  color: #1890ff;
+}
+
+/* Card styling */
+.ant-card {
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  border: none;
+}
+
+.ant-card-head {
+  border-bottom: none;
+  padding: 24px 24px 0;
+}
+
+.ant-card-body {
+  padding: 24px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .movies-container {
+    padding: 16px;
+  }
+  
+  .movies-header {
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  
+  .movies-header h2 {
+    font-size: 20px;
+  }
+  
+  .movies-actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+  
+  .movies-actions .ant-input-search {
+    flex: 1;
+    min-width: 200px;
+  }
+  
+  .movies-actions .ant-select {
+    min-width: 100px;
+  }
+}
+
+@media (max-width: 576px) {
+  .movies-header {
+    text-align: center;
+    align-items: center;
+  }
+  
+  .movies-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .movies-actions .ant-space {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .movies-actions .ant-input-search,
+  .movies-actions .ant-select,
+  .movies-actions .ant-btn {
+    width: 100%;
+  }
+}
+
+/* Loading states */
+.movies-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 0;
+  color: #666;
+}
+
+.movies-loading .ant-spin {
+  margin-bottom: 16px;
+}
+
+/* Empty state */
+.movies-empty {
+  text-align: center;
+  padding: 60px 0;
+  color: #999;
+}
+
+.movies-empty .anticon {
+  font-size: 48px;
+  color: #d9d9d9;
+  margin-bottom: 16px;
+}
+
+/* Action buttons spacing */
+.ant-space-item {
+  display: flex;
+  align-items: center;
+}
+
+/* Hover effects */
+.ant-table-row:hover {
+  background: linear-gradient(135deg, #f0f9ff 0%, #e6f7ff 100%) !important;
+}
+
+/* Custom scrollbar for table */
+.ant-table-body::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+
+.ant-table-body::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.ant-table-body::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, #1890ff 0%, #722ed1 100%);
+  border-radius: 4px;
+}
+
+.ant-table-body::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(90deg, #0050b3 0%, #531dab 100%);
+}

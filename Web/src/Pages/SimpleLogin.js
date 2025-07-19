@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Form, Input, Button, Typography, Card, message } from 'antd';
-import { UserOutlined, LockOutlined, VideoCameraOutlined } from '@ant-design/icons';
+import { Form, Input, Button, Typography, Card, message, Modal } from 'antd';
+import { UserOutlined, LockOutlined, VideoCameraOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import './SimpleLogin.css';
 
 const { Title, Text } = Typography;
@@ -15,7 +15,7 @@ const Login = ({ onLogin }) => {
       await new Promise(resolve => setTimeout(resolve, 1000));
       
       // Mock authentication - replace with real API call
-      if (values.email === 'admin@cinema.com' && values.password === 'admin123') {
+      if (values.email === 'admin@gmail.com' && values.password === '123456') {
         message.success('Đăng nhập thành công!');
         // Call onLogin callback to update authentication state
         if (onLogin) {
@@ -23,10 +23,71 @@ const Login = ({ onLogin }) => {
         }
         console.log('Login successful');
       } else {
-        message.error('Email hoặc mật khẩu không chính xác!');
+        // Hiển thị dialog thông báo lỗi
+        let errorTitle = '';
+        let errorContent = '';
+        
+        if (values.email !== 'admin@gmail.com') {
+          errorTitle = 'Tài khoản không tồn tại';
+          errorContent = 'Email bạn nhập không đúng. Vui lòng kiểm tra lại!';
+        } else if (values.password !== '123456') {
+          errorTitle = 'Mật khẩu không chính xác';
+          errorContent = 'Mật khẩu bạn nhập không đúng. Vui lòng thử lại!';
+        } else {
+          errorTitle = 'Đăng nhập thất bại';
+          errorContent = 'Tài khoản hoặc mật khẩu không chính xác. Vui lòng thử lại!';
+        }
+
+        Modal.error({
+          title: (
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <ExclamationCircleOutlined style={{ color: '#ff4d4f' }} />
+              {errorTitle}
+            </div>
+          ),
+          content: (
+            <div style={{ padding: '16px 0' }}>
+              <p style={{ marginBottom: 16, fontSize: '14px' }}>{errorContent}</p>
+              <div style={{ 
+                background: '#f6f8fa', 
+                padding: '12px', 
+                borderRadius: '6px',
+                border: '1px solid #e1e4e8'
+              }}>
+                <p style={{ margin: 0, fontSize: '12px', color: '#666' }}>
+                  <strong>Tài khoản demo:</strong> admin@gmail.com
+                </p>
+                <p style={{ margin: 0, fontSize: '12px', color: '#666' }}>
+                  <strong>Mật khẩu:</strong> 123456
+                </p>
+              </div>
+            </div>
+          ),
+          okText: 'Thử lại',
+          okButtonProps: {
+            style: {
+              background: 'linear-gradient(90deg, #1890ff 0%, #722ed1 100%)',
+              border: 'none',
+              borderRadius: '6px'
+            }
+          },
+          width: 450,
+          centered: true,
+          maskClosable: true
+        });
       }
     } catch (error) {
-      message.error('Có lỗi xảy ra khi đăng nhập!');
+      Modal.error({
+        title: (
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <ExclamationCircleOutlined style={{ color: '#ff4d4f' }} />
+            Lỗi hệ thống
+          </div>
+        ),
+        content: 'Có lỗi xảy ra khi đăng nhập! Vui lòng thử lại sau.',
+        okText: 'Đóng',
+        centered: true
+      });
     } finally {
       setLoading(false);
     }
@@ -102,7 +163,15 @@ const Login = ({ onLogin }) => {
 
           <div className="login-footer">
             <Text className="demo-info">
-              Demo: admin@cinema.com / admin123
+              Tài khoản demo: admin@gmail.com / 123456
+            </Text>
+            <Text className="security-note" style={{ 
+              display: 'block', 
+              marginTop: '8px', 
+              fontSize: '12px', 
+              color: '#8c8c8c' 
+            }}>
+              Chỉ tài khoản admin được phép truy cập hệ thống
             </Text>
           </div>
         </Card>

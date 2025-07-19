@@ -1,486 +1,390 @@
 import React, { useState, useEffect } from 'react';
+import { 
+  Table, 
+  Button, 
+  Modal, 
+  Form, 
+  Input, 
+  Space, 
+  message, 
+  Popconfirm, 
+  Card, 
+  Image,
+  Spin
+} from 'antd';
+import { 
+  PlusOutlined, 
+  EditOutlined, 
+  DeleteOutlined, 
+  SearchOutlined, 
+  EyeOutlined,
+  ReloadOutlined
+} from '@ant-design/icons';
+import { utilityAPI } from '../Services/apiService';
 import './Actors.css';
 
 const Actors = () => {
   const [actors, setActors] = useState([]);
-  const [filteredActors, setFilteredActors] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedActor, setSelectedActor] = useState(null);
-  const [showModal, setShowModal] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [actorsPerPage] = useState(6);
+  const [loading, setLoading] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [editingActor, setEditingActor] = useState(null);
+  const [form] = Form.useForm();
+  const [searchText, setSearchText] = useState('');
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 20,
+    total: 0
+  });
 
-  // Mock data cho diễn viên
-  const mockActors = [
+  // Load dữ liệu ban đầu
+  useEffect(() => {
+    loadActors();
+  }, []);
+
+  // Load danh sách diễn viên
+  const loadActors = async (page = 1, pageSize = 20, searchQuery = '') => {
+    try {
+      setLoading(true);
+      
+      const params = {
+        page,
+        limit: pageSize
+      };
+
+      // Tạo timeout promise
+      const timeoutPromise = new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('API timeout')), 10000)
+      );
+
+      let apiPromise = utilityAPI.getActors(params);
+
+      // Race between API call and timeout
+      const response = await Promise.race([apiPromise, timeoutPromise]);
+
+      if (response && response.success === true && Array.isArray(response.data)) {
+        setActors(response.data);
+        setPagination({
+          current: page,
+          pageSize,
+          total: response.count || response.data.length
+        });
+        message.success(`Đã tải ${response.data.length} diễn viên từ API`);
+      } else if (response && Array.isArray(response)) {
+        // API trả về array trực tiếp
+        setActors(response);
+        setPagination({
+          current: page,
+          pageSize,
+          total: response.length
+        });
+        message.success(`Đã tải ${response.length} diễn viên từ API`);
+      } else {
+        throw new Error('API response không hợp lệ');
+      }
+    } catch (error) {
+      console.error('Lỗi tải diễn viên:', error);
+      message.error(`Lỗi tải diễn viên: ${error.message}`);
+      
+      // Fallback với mock data
+      const mockActors = getMockActors();
+      setActors(mockActors);
+      setPagination({ 
+        current: page, 
+        pageSize, 
+        total: mockActors.length 
+      });
+      message.info(`Hiển thị ${mockActors.length} diễn viên mẫu`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Mock data để fallback
+  const getMockActors = () => {
+    return [
+      {
+        _id: '1',
+        name: 'Robert Downey Jr.',
+        image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300'
+      },
+      {
+        _id: '2',
+        name: 'Scarlett Johansson',
+        image: 'https://images.unsplash.com/photo-1494790108755-2616b612b5bb?w=300'
+      },
+      {
+        _id: '3',
+        name: 'Chris Evans',
+        image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300'
+      }
+    ];
+  };
+
+  // Xử lý tìm kiếm
+  const handleSearch = (value) => {
+    setSearchText(value);
+    if (value.trim()) {
+      // Filter local data for now (TODO: implement API search)
+      const filtered = actors.filter(actor => 
+        actor.name.toLowerCase().includes(value.toLowerCase())
+      );
+      setActors(filtered);
+    } else {
+      loadActors(1, pagination.pageSize);
+    }
+  };
+
+  // Xử lý phân trang
+  const handleTableChange = (paginationInfo) => {
+    loadActors(paginationInfo.current, paginationInfo.pageSize, searchText);
+  };
+
+  // Refresh data
+  const handleRefresh = () => {
+    setSearchText('');
+    loadActors();
+  };
+
+  // Xử lý xem chi tiết
+  const handleView = (record) => {
+    Modal.info({
+      title: record.name,
+      width: 600,
+      content: (
+        <div style={{ padding: '16px 0' }}>
+          <div style={{ display: 'flex', gap: 16, marginBottom: 16 }}>
+            <Image
+              src={record.image}
+              width={150}
+              height={200}
+              style={{ objectFit: 'cover', borderRadius: 8 }}
+              fallback="https://via.placeholder.com/150x200/f0f0f0/666?text=No+Image"
+            />
+            <div style={{ flex: 1 }}>
+              <p><strong>Tên:</strong> {record.name}</p>
+              <p><strong>ID:</strong> {record._id}</p>
+              <p><strong>Số phim đã tham gia:</strong> Chưa có thông tin</p>
+            </div>
+          </div>
+        </div>
+      )
+    });
+  };
+
+  // Xử lý chỉnh sửa
+  const handleEdit = (record) => {
+    setEditingActor(record);
+    form.setFieldsValue({
+      name: record.name,
+      image: record.image
+    });
+    setModalVisible(true);
+  };
+
+  // Xử lý xóa
+  const handleDelete = async (id) => {
+    try {
+      // TODO: Implement delete API call
+      message.success('Xóa diễn viên thành công');
+      loadActors(pagination.current, pagination.pageSize, searchText);
+    } catch (error) {
+      message.error('Không thể xóa diễn viên');
+    }
+  };
+
+  // Xử lý submit form
+  const handleSubmit = async (values) => {
+    try {
+      if (editingActor) {
+        // TODO: Implement edit API call
+        message.success('Cập nhật diễn viên thành công');
+      } else {
+        // TODO: Implement create API call
+        message.success('Thêm diễn viên thành công');
+      }
+      setModalVisible(false);
+      setEditingActor(null);
+      form.resetFields();
+      loadActors(pagination.current, pagination.pageSize, searchText);
+    } catch (error) {
+      message.error('Có lỗi xảy ra khi lưu diễn viên');
+    }
+  };
+
+  // Định nghĩa columns cho table
+  const columns = [
     {
-      id: 1,
-      name: 'Chris Evans',
-      email: 'chris.evans@email.com',
-      phone: '+1 555-0101',
-      birthDate: '1981-06-13',
-      nationality: 'American',
-      avatar: 'https://via.placeholder.com/150x150/4a90e2/ffffff?text=CE',
-      knownFor: 'Captain America',
-      biography: 'Christopher Robert Evans is an American actor, best known for his role as Captain America in the Marvel Cinematic Universe.',
-      movies: ['Captain America: The First Avenger', 'Avengers: Endgame', 'The Gray Man'],
-      awards: 8,
-      status: 'active',
-      joinDate: '2010-03-15'
+      title: 'Ảnh',
+      dataIndex: 'image',
+      key: 'image',
+      width: 80,
+      render: (image, record) => (
+        <Image
+          src={image || 'https://via.placeholder.com/60x80/f0f0f0/666?text=No+Image'}
+          alt={record.name}
+          width={60}
+          height={80}
+          style={{ objectFit: 'cover', borderRadius: 4 }}
+          fallback="https://via.placeholder.com/60x80/f0f0f0/666?text=No+Image"
+        />
+      )
     },
     {
-      id: 2,
-      name: 'Chris Hemsworth',
-      email: 'chris.hemsworth@email.com',
-      phone: '+61 400-000-001',
-      birthDate: '1983-08-11',
-      nationality: 'Australian',
-      avatar: 'https://via.placeholder.com/150x150/50c878/ffffff?text=CH',
-      knownFor: 'Thor',
-      biography: 'Christopher Hemsworth is an Australian actor best known for playing Thor in the Marvel Cinematic Universe.',
-      movies: ['Thor', 'Avengers: Infinity War', 'Extraction'],
-      awards: 6,
-      status: 'active',
-      joinDate: '2011-05-06'
+      title: 'Tên diễn viên',
+      dataIndex: 'name',
+      key: 'name',
+      width: 200,
+      render: (name, record) => (
+        <div>
+          <div style={{ fontWeight: 600, marginBottom: 4 }}>
+            {name || 'Không có tên'}
+          </div>
+          <div style={{ fontSize: 12, color: '#666' }}>
+            ID: {record._id}
+          </div>
+        </div>
+      )
     },
     {
-      id: 3,
-      name: 'Robert Downey Jr.',
-      email: 'robert.downey@email.com',
-      phone: '+1 555-0102',
-      birthDate: '1965-04-04',
-      nationality: 'American',
-      avatar: 'https://via.placeholder.com/150x150/ff6b6b/ffffff?text=RD',
-      knownFor: 'Iron Man',
-      biography: 'Robert John Downey Jr. is an American actor and producer known for his role as Iron Man in the Marvel Cinematic Universe.',
-      movies: ['Iron Man', 'Avengers: Endgame', 'Sherlock Holmes'],
-      awards: 12,
-      status: 'active',
-      joinDate: '2008-05-02'
-    },
-    {
-      id: 4,
-      name: 'Scarlett Johansson',
-      email: 'scarlett.johansson@email.com',
-      phone: '+1 555-0103',
-      birthDate: '1984-11-22',
-      nationality: 'American',
-      avatar: 'https://via.placeholder.com/150x150/9b59b6/ffffff?text=SJ',
-      knownFor: 'Black Widow',
-      biography: 'Scarlett Ingrid Johansson is an American actress known for her role as Black Widow in the Marvel Cinematic Universe.',
-      movies: ['Black Widow', 'Avengers: Endgame', 'Marriage Story'],
-      awards: 5,
-      status: 'active',
-      joinDate: '2010-05-07'
-    },
-    {
-      id: 5,
-      name: 'Anthony Mackie',
-      email: 'anthony.mackie@email.com',
-      phone: '+1 555-0104',
-      birthDate: '1978-09-23',
-      nationality: 'American',
-      avatar: 'https://via.placeholder.com/150x150/f39c12/ffffff?text=AM',
-      knownFor: 'Falcon',
-      biography: 'Anthony Dwane Mackie is an American actor known for his role as Falcon in the Marvel Cinematic Universe.',
-      movies: ['The Falcon and the Winter Soldier', 'Avengers: Endgame', 'Altered Carbon'],
-      awards: 4,
-      status: 'active',
-      joinDate: '2014-04-04'
-    },
-    {
-      id: 6,
-      name: 'Mark Ruffalo',
-      email: 'mark.ruffalo@email.com',
-      phone: '+1 555-0105',
-      birthDate: '1967-11-22',
-      nationality: 'American',
-      avatar: 'https://via.placeholder.com/150x150/2ecc71/ffffff?text=MR',
-      knownFor: 'Hulk',
-      biography: 'Mark Alan Ruffalo is an American actor and filmmaker known for his role as Hulk in the Marvel Cinematic Universe.',
-      movies: ['Avengers: Endgame', 'Thor: Ragnarok', 'Spotlight'],
-      awards: 7,
-      status: 'inactive',
-      joinDate: '2012-05-04'
+      title: 'Thao tác',
+      key: 'action',
+      width: 120,
+      fixed: 'right',
+      render: (_, record) => (
+        <Space size="middle">
+          <Button
+            type="text"
+            icon={<EyeOutlined />}
+            onClick={() => handleView(record)}
+            title="Xem chi tiết"
+          />
+          <Button
+            type="text"
+            icon={<EditOutlined />}
+            onClick={() => handleEdit(record)}
+            title="Chỉnh sửa"
+          />
+          <Popconfirm
+            title="Bạn có chắc chắn muốn xóa diễn viên này?"
+            onConfirm={() => handleDelete(record._id)}
+            okText="Có"
+            cancelText="Không"
+          >
+            <Button
+              type="text"
+              icon={<DeleteOutlined />}
+              danger
+              title="Xóa"
+            />
+          </Popconfirm>
+        </Space>
+      )
     }
   ];
 
-  useEffect(() => {
-    setActors(mockActors);
-    setFilteredActors(mockActors);
-  }, []);
-
-  useEffect(() => {
-    const filtered = actors.filter(actor =>
-      actor.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      actor.knownFor.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      actor.nationality.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setFilteredActors(filtered);
-    setCurrentPage(1);
-  }, [searchTerm, actors]);
-
-  // Pagination
-  const indexOfLastActor = currentPage * actorsPerPage;
-  const indexOfFirstActor = indexOfLastActor - actorsPerPage;
-  const currentActors = filteredActors.slice(indexOfFirstActor, indexOfLastActor);
-  const totalPages = Math.ceil(filteredActors.length / actorsPerPage);
-
-  const handleView = (actor) => {
-    setSelectedActor(actor);
-    setIsEditing(false);
-    setShowModal(true);
-  };
-
-  const handleEdit = (actor) => {
-    setSelectedActor(actor);
-    setIsEditing(true);
-    setShowModal(true);
-  };
-
-  const handleDelete = (actorId) => {
-    if (window.confirm('Bạn có chắc chắn muốn xóa diễn viên này?')) {
-      setActors(actors.filter(actor => actor.id !== actorId));
-    }
-  };
-
-  const handleAddNew = () => {
-    setSelectedActor({
-      id: Date.now(),
-      name: '',
-      email: '',
-      phone: '',
-      birthDate: '',
-      nationality: '',
-      avatar: 'https://via.placeholder.com/150x150/cccccc/ffffff?text=NEW',
-      knownFor: '',
-      biography: '',
-      movies: [],
-      awards: 0,
-      status: 'active',
-      joinDate: new Date().toISOString().split('T')[0]
-    });
-    setIsEditing(true);
-    setShowModal(true);
-  };
-
-  const handleSave = (actorData) => {
-    if (actors.find(a => a.id === actorData.id)) {
-      // Update existing
-      setActors(actors.map(actor => 
-        actor.id === actorData.id ? { ...actorData } : actor
-      ));
-    } else {
-      // Add new
-      setActors([...actors, actorData]);
-    }
-    setShowModal(false);
-  };
-
-  const getStatusBadge = (status) => {
-    return (
-      <span className={`status-badge ${status}`}>
-        {status === 'active' ? 'Đang hoạt động' : 'Tạm nghỉ'}
-      </span>
-    );
-  };
-
-  const calculateAge = (birthDate) => {
-    const today = new Date();
-    const birth = new Date(birthDate);
-    let age = today.getFullYear() - birth.getFullYear();
-    const monthDiff = today.getMonth() - birth.getMonth();
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
-      age--;
-    }
-    return age;
-  };
-
   return (
     <div className="actors-container">
-      <div className="actors-header">
-        <div className="header-left">
-          <h1>Quản lý Diễn viên</h1>
-          <p>Tổng cộng: {filteredActors.length} diễn viên</p>
-        </div>
-        <button className="btn-primary" onClick={handleAddNew}>
-          <i className="fas fa-plus"></i>
-          Thêm diễn viên mới
-        </button>
-      </div>
+      <Card>
+        <div className="actors-header">
+          <h2>Quản lý diễn viên</h2>
+          <div className="actors-actions">
+            <Space wrap>
+              <Input.Search
+                placeholder="Tìm kiếm diễn viên..."
+                value={searchText}
+                onChange={(e) => setSearchText(e.target.value)}
+                onSearch={handleSearch}
+                style={{ width: 250 }}
+                enterButton={<SearchOutlined />}
+              />
 
-      <div className="actors-controls">
-        <div className="search-box">
-          <i className="fas fa-search"></i>
-          <input
-            type="text"
-            placeholder="Tìm kiếm diễn viên..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+              <Button
+                icon={<ReloadOutlined />}
+                onClick={handleRefresh}
+                title="Làm mới"
+              />
+
+              <Button
+                type="primary"
+                icon={<PlusOutlined />}
+                onClick={() => {
+                  setEditingActor(null);
+                  form.resetFields();
+                  setModalVisible(true);
+                }}
+              >
+                Thêm diễn viên mới
+              </Button>
+            </Space>
+          </div>
+        </div>
+
+        {loading ? (
+          <div style={{ textAlign: 'center', padding: '50px 0' }}>
+            <Spin size="large" />
+            <div style={{ marginTop: 16 }}>Đang tải danh sách diễn viên...</div>
+          </div>
+        ) : (
+          <Table
+            columns={columns}
+            dataSource={actors}
+            rowKey="_id"
+            loading={loading}
+            pagination={{
+              ...pagination,
+              showSizeChanger: true,
+              showQuickJumper: true,
+              showTotal: (total, range) =>
+                `${range[0]}-${range[1]} của ${total} diễn viên`,
+              pageSizeOptions: ['10', '20', '50', '100']
+            }}
+            onChange={handleTableChange}
+            scroll={{ x: 600 }}
           />
-        </div>
-        <div className="filter-controls">
-          <select className="filter-select">
-            <option value="">Tất cả trạng thái</option>
-            <option value="active">Đang hoạt động</option>
-            <option value="inactive">Tạm nghỉ</option>
-          </select>
-        </div>
-      </div>
+        )}
+      </Card>
 
-      <div className="actors-grid">
-        {currentActors.map(actor => (
-          <div key={actor.id} className="actor-card">
-            <div className="actor-avatar">
-              <img src={actor.avatar} alt={actor.name} />
-              {getStatusBadge(actor.status)}
-            </div>
-            <div className="actor-info">
-              <h3>{actor.name}</h3>
-              <p className="actor-role">{actor.knownFor}</p>
-              <p className="actor-nationality">{actor.nationality}</p>
-              <div className="actor-stats">
-                <span><i className="fas fa-calendar"></i> {calculateAge(actor.birthDate)} tuổi</span>
-                <span><i className="fas fa-trophy"></i> {actor.awards} giải</span>
-                <span><i className="fas fa-film"></i> {actor.movies.length} phim</span>
-              </div>
-            </div>
-            <div className="actor-actions">
-              <button 
-                className="btn-view" 
-                onClick={() => handleView(actor)}
-                title="Xem chi tiết"
-              >
-                <i className="fas fa-eye"></i>
-              </button>
-              <button 
-                className="btn-edit" 
-                onClick={() => handleEdit(actor)}
-                title="Chỉnh sửa"
-              >
-                <i className="fas fa-edit"></i>
-              </button>
-              <button 
-                className="btn-delete" 
-                onClick={() => handleDelete(actor.id)}
-                title="Xóa"
-              >
-                <i className="fas fa-trash"></i>
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Pagination */}
-      {totalPages > 1 && (
-        <div className="pagination">
-          <button 
-            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-            disabled={currentPage === 1}
-            className="btn-pagination"
+      {/* Modal thêm/sửa diễn viên */}
+      <Modal
+        title={editingActor ? 'Chỉnh sửa diễn viên' : 'Thêm diễn viên mới'}
+        open={modalVisible}
+        onCancel={() => {
+          setModalVisible(false);
+          setEditingActor(null);
+          form.resetFields();
+        }}
+        onOk={() => form.submit()}
+        width={600}
+        destroyOnClose
+      >
+        <Form
+          form={form}
+          layout="vertical"
+          onFinish={handleSubmit}
+        >
+          <Form.Item
+            name="name"
+            label="Tên diễn viên"
+            rules={[
+              { required: true, message: 'Vui lòng nhập tên diễn viên' },
+              { min: 2, message: 'Tên diễn viên phải có ít nhất 2 ký tự' }
+            ]}
           >
-            <i className="fas fa-chevron-left"></i>
-          </button>
-          
-          {Array.from({ length: totalPages }, (_, i) => (
-            <button
-              key={i + 1}
-              onClick={() => setCurrentPage(i + 1)}
-              className={`btn-pagination ${currentPage === i + 1 ? 'active' : ''}`}
-            >
-              {i + 1}
-            </button>
-          ))}
-          
-          <button 
-            onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-            disabled={currentPage === totalPages}
-            className="btn-pagination"
+            <Input placeholder="Nhập tên diễn viên" />
+          </Form.Item>
+
+          <Form.Item
+            name="image"
+            label="Ảnh diễn viên"
+            rules={[
+              { required: true, message: 'Vui lòng nhập URL ảnh diễn viên' },
+              { type: 'url', message: 'Vui lòng nhập URL hợp lệ' }
+            ]}
           >
-            <i className="fas fa-chevron-right"></i>
-          </button>
-        </div>
-      )}
-
-      {/* Modal */}
-      {showModal && (
-        <ActorModal 
-          actor={selectedActor}
-          isEditing={isEditing}
-          onClose={() => setShowModal(false)}
-          onSave={handleSave}
-        />
-      )}
-    </div>
-  );
-};
-
-// Actor Modal Component
-const ActorModal = ({ actor, isEditing, onClose, onSave }) => {
-  const [formData, setFormData] = useState(actor);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-
-  const handleMoviesChange = (e) => {
-    const movies = e.target.value.split(',').map(movie => movie.trim()).filter(movie => movie);
-    setFormData(prev => ({
-      ...prev,
-      movies
-    }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSave(formData);
-  };
-
-  return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={e => e.stopPropagation()}>
-        <div className="modal-header">
-          <h2>{isEditing ? 'Chỉnh sửa diễn viên' : 'Chi tiết diễn viên'}</h2>
-          <button className="modal-close" onClick={onClose}>
-            <i className="fas fa-times"></i>
-          </button>
-        </div>
-
-        <form onSubmit={handleSubmit} className="modal-body">
-          <div className="form-row">
-            <div className="form-group">
-              <label>Tên diễn viên *</label>
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                disabled={!isEditing}
-                required
-              />
-            </div>
-            <div className="form-group">
-              <label>Email</label>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                disabled={!isEditing}
-              />
-            </div>
-          </div>
-
-          <div className="form-row">
-            <div className="form-group">
-              <label>Số điện thoại</label>
-              <input
-                type="tel"
-                name="phone"
-                value={formData.phone}
-                onChange={handleChange}
-                disabled={!isEditing}
-              />
-            </div>
-            <div className="form-group">
-              <label>Ngày sinh</label>
-              <input
-                type="date"
-                name="birthDate"
-                value={formData.birthDate}
-                onChange={handleChange}
-                disabled={!isEditing}
-              />
-            </div>
-          </div>
-
-          <div className="form-row">
-            <div className="form-group">
-              <label>Quốc tịch</label>
-              <input
-                type="text"
-                name="nationality"
-                value={formData.nationality}
-                onChange={handleChange}
-                disabled={!isEditing}
-              />
-            </div>
-            <div className="form-group">
-              <label>Nổi tiếng với vai</label>
-              <input
-                type="text"
-                name="knownFor"
-                value={formData.knownFor}
-                onChange={handleChange}
-                disabled={!isEditing}
-              />
-            </div>
-          </div>
-
-          <div className="form-row">
-            <div className="form-group">
-              <label>Số giải thưởng</label>
-              <input
-                type="number"
-                name="awards"
-                value={formData.awards}
-                onChange={handleChange}
-                disabled={!isEditing}
-                min="0"
-              />
-            </div>
-            <div className="form-group">
-              <label>Trạng thái</label>
-              <select
-                name="status"
-                value={formData.status}
-                onChange={handleChange}
-                disabled={!isEditing}
-              >
-                <option value="active">Đang hoạt động</option>
-                <option value="inactive">Tạm nghỉ</option>
-              </select>
-            </div>
-          </div>
-
-          <div className="form-group">
-            <label>Tiểu sử</label>
-            <textarea
-              name="biography"
-              value={formData.biography}
-              onChange={handleChange}
-              disabled={!isEditing}
-              rows="4"
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Phim tham gia (phân cách bằng dấu phẩy)</label>
-            <textarea
-              value={formData.movies.join(', ')}
-              onChange={handleMoviesChange}
-              disabled={!isEditing}
-              rows="3"
-            />
-          </div>
-
-          {isEditing && (
-            <div className="modal-actions">
-              <button type="button" className="btn-secondary" onClick={onClose}>
-                Hủy
-              </button>
-              <button type="submit" className="btn-primary">
-                Lưu thay đổi
-              </button>
-            </div>
-          )}
-        </form>
-      </div>
+            <Input placeholder="https://example.com/image.jpg" />
+          </Form.Item>
+        </Form>
+      </Modal>
     </div>
   );
 };

@@ -5,6 +5,7 @@ import Users from './Users';
 import Actors from './Actors';
 import Cinemas from './Cinemas';
 import Genres from './Genres';
+import Movies from './Movies';
 
 const AdminLayout = ({ onLogout }) => {
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -38,7 +39,7 @@ const AdminLayout = ({ onLogout }) => {
       case 'genres':
         return <Genres />;
       case 'movies':
-        return <div className="coming-soon">Trang Quản lý Phim đang được phát triển...</div>;
+        return <Movies />;
       case 'bookings':
         return <div className="coming-soon">Trang Quản lý Đặt vé đang được phát triển...</div>;
       case 'settings':
