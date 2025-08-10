@@ -13,10 +13,8 @@ const Login = () => {
   const onFinish = async (values) => {
     setLoading(true);
     try {
-      // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      // Mock authentication - replace with real API call
       if (values.email === 'admin@cinema.com' && values.password === 'admin123') {
         message.success('Đăng nhập thành công!');
         localStorage.setItem('adminToken', 'mock-token');

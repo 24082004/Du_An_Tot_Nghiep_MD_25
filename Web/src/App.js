@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import './App.css';
 import Users from './Pages/Users';
 import EmployeeList from './Pages/EmployeeList';
@@ -15,46 +15,51 @@ import CreateDirector from './Pages/CreateDirector';
 import CreateEmployee from './Pages/CreateEmployee';
 import SeatManagement from './Pages/SeatManagement';
 import RoomList from './Pages/RoomList';
-// import SimpleLogin from './Pages/SimpleLogin';
-// import AdminLayout from './Pages/AdminLayout';
+import Login from './Pages/Login'; // import trang đăng nhập
 
 function App() {
-  // const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  // const handleLogin = () => {
-  //   setIsAuthenticated(true);
-  // };
-
-  // const handleLogout = () => {
-  //   setIsAuthenticated(false);
-  // };
+  const isAuthenticated = !!localStorage.getItem('adminToken');
+  const location = useLocation();
 
   return (
-      <MainLayout>
-      <Routes>
-      <Route path="/statistics" element={<RevenueStatistics />} />
-      <Route path="/users" element={<Users />} />
-      <Route path='/movie/list' element={<MovieList/>}/>
-      <Route path='/addmovie' element={<AddMovie/>}/>
-      <Route path="/employees" element={<EmployeeList/>} />
-      <Route path="/employees/:id" element={<EmployeeDetail/>} />
-      <Route path="/directors" element={<DirectorList />} />
-      <Route path="/bookings" element={<BookingHistory />} />
-      <Route path="/bookings/:id" element={<TicketDetail />} />
-      <Route path="/directors/create" element={<CreateDirector />} />
-      <Route path="/employees/create" element={<CreateEmployee/>} />
-      <Route path="/seats" element={<SeatManagement />} />
-      <Route path="/rooms" element={<RoomList />} />
+    <Routes>
+
+      <Route
+        path="/login"
+        element={isAuthenticated ? <Navigate to="/" replace /> : <Login />}
+      />
+
+      {/* Các route yêu cầu đăng nhập */}
+      <Route
+        path="/*"
+        element={
+          isAuthenticated ? (
+            <MainLayout>
+              <Routes>
+                <Route path="/" element={<RevenueStatistics />} />
+                <Route path="/statistics" element={<RevenueStatistics />} />
+                <Route path="/users" element={<Users />} />
+                <Route path="/movie/list" element={<MovieList />} />
+                <Route path="/addmovie" element={<AddMovie />} />
+                <Route path="/employees" element={<EmployeeList />} />
+                <Route path="/employees/:id" element={<EmployeeDetail />} />
+                <Route path="/directors" element={<DirectorList />} />
+                <Route path="/bookings" element={<BookingHistory />} />
+                <Route path="/bookings/:id" element={<TicketDetail />} />
+                <Route path="/directors/create" element={<CreateDirector />} />
+                <Route path="/employees/create" element={<CreateEmployee />} />
+                <Route path="/seats" element={<SeatManagement />} />
+                <Route path="/rooms" element={<RoomList />} />
+                {/* Fallback nếu không có route phù hợp */}
+                <Route path="*" element={<Navigate to="/" />} />
+              </Routes>
+            </MainLayout>
+          ) : (
+            <Navigate to="/login" replace state={{ from: location }} />
+          )
+        }
+      />
     </Routes>
-    </MainLayout>
-    // <div className="App">
-    //   {isAuthenticated ? (
-    //     <AdminLayout onLogout={handleLogout} />
-    //   ) : (
-    //     <SimpleLogin onLogin={handleLogin} />
-    //   )}
-    // </div>
-    
   );
 }
 

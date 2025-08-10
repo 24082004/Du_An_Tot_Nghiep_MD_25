@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Table, Button, Input, message } from "antd";
+import { Table, Button, Input, message, Space, Popconfirm } from "antd";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import dayjs from "dayjs"; // Dùng để format ngày
@@ -8,22 +8,28 @@ const MovieList = () => {
   const [movies, setMovies] = useState([]);
   const [filteredMovies, setFilteredMovies] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const fetchMovies = async () => {
-      try {
-        const res = await axios.get("https://my-backend-api-movie.onrender.com/api/movies");
-        const data = res.data?.data || [];
-        setMovies(data);
-        setFilteredMovies(data);
-      } catch (err) {
-        console.error("Lỗi khi gọi API:", err);
-        message.error("Không thể tải danh sách phim.");
-      }
-    };
 
-    fetchMovies();
-  }, []);
+const fetchMovies = async () => {
+  setLoading(true);
+  try {
+    const res = await axios.get("https://my-backend-api-movie.onrender.com/api/movies");
+    const data = res.data?.data || [];
+    setMovies(data);
+    setFilteredMovies(data);
+  } catch (err) {
+    console.error("Lỗi khi gọi API:", err);
+    message.error("Không thể tải danh sách phim.");
+  } finally {
+    setLoading(false);
+  }
+};
+
+useEffect(() => {
+  fetchMovies();
+}, []);
+
 
   const handleSearch = (value) => {
     setSearchKeyword(value);
@@ -31,6 +37,17 @@ const MovieList = () => {
       movie.name?.toLowerCase().includes(value.toLowerCase())
     );
     setFilteredMovies(filtered);
+  };
+
+    const handleDelete = async (id) => {
+    try {
+      await axios.delete(`https://my-backend-api-movie.onrender.com/api/movies/${id}`);
+      message.success("Xoá phim thành công");
+      fetchMovies();
+    } catch (err) {
+      console.error("Lỗi khi xoá phim:", err);
+      message.error("Xoá phim thất bại");
+    }
   };
 
   const columns = [
@@ -85,9 +102,19 @@ const MovieList = () => {
       title: "Hành động",
       key: "action",
       render: (_, record) => (
-        <Link to={`/movie/edit/${record._id}`}>
-          <Button type="primary">Sửa</Button>
-        </Link>
+        <Space>
+          <Link to={`/movie/edit/${record._id}`}>
+            <Button type="primary">Sửa</Button>
+          </Link>
+          <Popconfirm
+            title="Bạn có chắc muốn xoá phim này?"
+            onConfirm={() => handleDelete(record._id)}
+            okText="Xoá"
+            cancelText="Hủy"
+          >
+            <Button danger>Xoá</Button>
+          </Popconfirm>
+        </Space>
       ),
     },
   ];
@@ -102,7 +129,13 @@ const MovieList = () => {
         onChange={(e) => handleSearch(e.target.value)}
         style={{ marginBottom: 16, maxWidth: 300 }}
       />
-      <Table columns={columns} dataSource={filteredMovies} rowKey="_id" bordered />
+        <Table
+        columns={columns}
+        dataSource={filteredMovies}
+        rowKey="_id"
+        bordered
+        loading={loading}
+      />
     </div>
   );
 };
